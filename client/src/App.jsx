@@ -1,21 +1,30 @@
-import { useEffect, useState } from "react";
+import GlobalStyle from "./GlobalStyle";
+import { Route, Routes } from "react-router-dom";
+import {
+  HeaderSideBarLayout,
+  HeaderLayout,
+  SideBarLayout,
+  NoLayout,
+} from "./Layouts";
+import Profile from "./Profile";
+import AnimeList from "./AnimeList";
+import AnimeDetails from "./AnimeDetails";
 
-function App() {
-  const [bacon, setBacon] = useState();
-
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((parsedRes) => {
-        setBacon(parsedRes.bacon);
-      });
-  }, []);
-
+export default () => {
   return (
-    <div>
-      Hello, world!<div>{bacon}</div>
-    </div>
+    <>
+      <GlobalStyle />
+      <Routes>
+        <Route path="/" element={<HeaderSideBarLayout />}>
+          <Route index element={<AnimeList />} />
+        </Route>
+        <Route path="/profile" element={<HeaderLayout />}>
+          <Route index element={<Profile />} />
+        </Route>
+        <Route path="/anime/:animeId" element={<HeaderLayout />}>
+          <Route index element={<AnimeDetails />} />
+        </Route>
+      </Routes>
+    </>
   );
-}
-
-export default App;
+};
