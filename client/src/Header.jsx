@@ -19,7 +19,10 @@ export default () => {
             <LogoutButton />
           </>
         ) : (
-          <LoginButton />
+          <>
+            <LoginButton />
+            <SignupButton />
+          </>
         )}
       </ButtonHolder>
     </Header>
@@ -49,6 +52,20 @@ const LoginButton = () => {
       }}
     >
       Log in
+    </Button>
+  );
+};
+
+const SignupButton = () => {
+  const { loginWithRedirect } = useAuth0();
+
+  return (
+    <Button
+      onClick={async () => {
+        loginWithRedirect({ screen_hint: "signup" });
+      }}
+    >
+      Sign up
     </Button>
   );
 };
