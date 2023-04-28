@@ -1,8 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import styled from "styled-components";
+import ListButton from "./ListButton";
 import Button from "./Button";
+import {
+  GridDiv,
+  Main,
+  H2,
+  Title,
+  Synopsis,
+  ImageBox,
+  CommentForm,
+  CommentBox,
+  Sidebar,
+  Table,
+  Row,
+  Cell,
+  StretchDiv,
+} from "./reusableComponents";
+import { UserContext } from "./UserContext";
 
 export default () => {
   const MAL_CLIENT_ID = import.meta.env.VITE_MAL_CLIENT_ID;
@@ -14,9 +30,11 @@ export default () => {
   const [comments, setComments] = useState();
   const [comment, setComment] = useState();
   const [commentPosted, setCommentPosted] = useState(0);
-  const { user, isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuth0();
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const aniInList =
+    currentUser?.list?.some((anime) => anime.animeId === animeId) ?? false;
 
-  // console.log(aniDetails);
   useEffect(() => {
     fetch(`/mal/anime/${animeId}?${searchParams}`, {
       method: "GET",
@@ -47,6 +65,15 @@ export default () => {
     <GridDiv>
       <Sidebar>
         <img src={aniDetails.main_picture.medium} alt="Main picture" />
+        <StretchDiv>
+          {
+            <ListButton
+              animeId={animeId}
+              action={aniInList ? "remove-from-list" : "add-to-list"}
+              aniDetails={aniDetails}
+            />
+          }
+        </StretchDiv>
         <h1>Information</h1>
         <p>
           <b>Type:</b> {aniDetails.media_type}
@@ -112,16 +139,18 @@ export default () => {
         <H2>Comments</H2>
         {comments ? (
           <Table>
-            {comments.map((comment, index) => {
-              return (
-                <Row key={`comment-${index}`}>
-                  <Cell>
-                    <h3>{comment.user} said:</h3>
-                    <p>{comment.comment}</p>
-                  </Cell>
-                </Row>
-              );
-            })}
+            <tbody>
+              {comments.map((comment, index) => {
+                return (
+                  <Row key={`comment-${index}`}>
+                    <Cell>
+                      <h3>{comment.user} said:</h3>
+                      <p>{comment.comment}</p>
+                    </Cell>
+                  </Row>
+                );
+              })}
+            </tbody>
           </Table>
         ) : (
           <div>Leave a comment!</div>
@@ -137,7 +166,7 @@ export default () => {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  email: user.email,
+                  userId: currentUser._id,
                   comment: comment,
                 }),
               })
@@ -162,75 +191,3 @@ export default () => {
     </GridDiv>
   );
 };
-
-const GridDiv = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 9fr;
-`;
-
-const Main = styled.main`
-margin: 1rem;
-  padding: 1rem
-  border-left: 1px solid black;
-`;
-
-const H2 = styled.h2`
-  border-bottom: 1px solid black;
-`;
-
-const Title = styled.h1`
-  margin: 0;
-  border-bottom: 1px solid black;
-  text-align: center;
-`;
-
-const Synopsis = styled.p`
-  white-space: pre-wrap;
-`;
-
-const ImageBox = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-`;
-
-const CommentForm = styled.form`
-  margin-top: 1rem;
-
-  & > * {
-    margin-bottom: 1rem;
-  }
-`;
-
-const CommentBox = styled.textarea`
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
-  resize: none;
-`;
-
-const Sidebar = styled.aside`
-  /* max-height: 100vh; */
-  /* position: sticky; */
-  /* top: 0; */
-`;
-
-const Table = styled.table`
-  width: 100%;
-  border: 1px solid var(--gundam-lightgray);
-`;
-
-const Row = styled.tr`
-  &:nth-child(odd) {
-    background-color: var(--gundam-gray);
-  }
-
-  &:nth-child(even) {
-    background-color: var(--gundam-lightgray);
-  }
-`;
-
-const Cell = styled.td`
-  padding: 0.5rem;
-`;

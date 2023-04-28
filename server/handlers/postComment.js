@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { MONGO_URI } = process.env;
-const { MongoClient, ObjectId } = require("mongodb");
+const { MongoClient } = require("mongodb");
 
 const options = {
   useNewUrlParser: true,
@@ -9,13 +9,13 @@ const options = {
 
 const postComment = async (req, res) => {
   const { animeId } = req.params;
-  const { email, comment } = req.body;
+  const { userId, comment } = req.body;
 
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
   const db = client.db("final-project");
 
-  const user = await db.collection("users").findOne({ email: email });
+  const user = await db.collection("users").findOne({ _id: userId });
   const commenter = user.username ?? user.name;
 
   const filter = { id: animeId };

@@ -1,19 +1,68 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import {
+  GridDiv,
+  Sidebar,
+  Main,
+  ProfilePicture,
+  Title,
+  Table,
+  Row,
+  Cell,
+  HeaderCell,
+} from "./reusableComponents";
+import ListButton from "./ListButton";
+import { useContext } from "react";
+import { UserContext } from "./UserContext";
 
 export default () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
+  const { currentUser } = useContext(UserContext);
 
-  if (isLoading) {
+  if (isLoading || !currentUser) {
     return <div>Loading ...</div>;
   }
 
   return (
     isAuthenticated && (
-      <div>
-        <img src={user.picture} alt={user.name} />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-      </div>
+      <GridDiv>
+        <Sidebar>
+          <ProfilePicture src={currentUser.picture} />
+          <h1>{currentUser.username ?? user.name}'s profile</h1>
+        </Sidebar>
+        <Main>
+          <Title>Your List</Title>
+          <Table>
+            <thead>
+              <Row>
+                <HeaderCell>Picture</HeaderCell>
+                <HeaderCell>Title</HeaderCell>
+                <HeaderCell>Remove</HeaderCell>
+              </Row>
+            </thead>
+            <tbody>
+              {currentUser.list.map((anime, index) => {
+                return (
+                  <Row key={`row-${index}`}>
+                    <Cell>
+                      <img
+                        src={anime.aniDetails.main_picture.medium}
+                        alt="Anime picture"
+                      />
+                    </Cell>
+                    <Cell>{anime.aniDetails.title}</Cell>
+                    <Cell>
+                      <ListButton
+                        animeId={anime.animeId}
+                        action="remove-from-list"
+                      />
+                    </Cell>
+                  </Row>
+                );
+              })}
+            </tbody>
+          </Table>
+        </Main>
+      </GridDiv>
     )
   );
 };

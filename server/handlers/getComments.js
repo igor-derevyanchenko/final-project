@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { MONGO_URI } = process.env;
-const { MongoClient, ObjectId } = require("mongodb");
+const { MongoClient } = require("mongodb");
 
 const options = {
   useNewUrlParser: true,
@@ -15,7 +15,7 @@ const getComments = async (req, res) => {
   const result = await db.collection("anime").findOne({ id: animeId });
 
   if (!result) {
-    res.status(404).json({ status: 404, message: "No comments found" });
+    res.status(200).json({ status: 200, message: "No comments found" });
     client.close();
     return;
   }
