@@ -15,7 +15,7 @@ export default () => {
     <>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<HeaderSideBarLayout />}>
+        <Route path="/" element={<HeaderLayout />}>
           <Route index element={<AnimeList />} />
         </Route>
         <Route path="/profile" element={<HeaderLayout />}>

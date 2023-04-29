@@ -13,6 +13,8 @@ import {
 import ListButton from "./ListButton";
 import { useContext } from "react";
 import { UserContext } from "./UserContext";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export default () => {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -39,7 +41,7 @@ export default () => {
                 <HeaderCell>Remove</HeaderCell>
               </Row>
             </thead>
-            <tbody>
+            <TableBody>
               {currentUser.list.map((anime, index) => {
                 return (
                   <Row key={`row-${index}`}>
@@ -49,7 +51,11 @@ export default () => {
                         alt="Anime picture"
                       />
                     </Cell>
-                    <Cell>{anime.aniDetails.title}</Cell>
+                    <Cell>
+                      <AniLink to={`/anime/${anime.animeId}`}>
+                        {anime.aniDetails.title}
+                      </AniLink>
+                    </Cell>
                     <Cell>
                       <ListButton
                         animeId={anime.animeId}
@@ -59,10 +65,20 @@ export default () => {
                   </Row>
                 );
               })}
-            </tbody>
+            </TableBody>
           </Table>
         </Main>
       </GridDiv>
     )
   );
 };
+
+const TableBody = styled.tbody`
+  text-align: center;
+`;
+
+const AniLink = styled(Link)`
+  text-decoration: none;
+  font-size: 2rem;
+  color: black;
+`;
