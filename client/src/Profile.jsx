@@ -10,6 +10,7 @@ import {
   Cell,
   HeaderCell,
 } from "./reusableComponents";
+import StatusButton from "./StatusButton";
 import ListButton from "./ListButton";
 import { useContext } from "react";
 import { UserContext } from "./UserContext";
@@ -32,12 +33,13 @@ export default () => {
           <h1>{currentUser.username ?? user.name}'s profile</h1>
         </Sidebar>
         <Main>
-          <Title>Your List</Title>
+          <Title>Your Watchlist</Title>
           <Table>
             <thead>
               <Row>
                 <HeaderCell>Picture</HeaderCell>
                 <HeaderCell>Title</HeaderCell>
+                <HeaderCell>Status</HeaderCell>
                 <HeaderCell>Remove</HeaderCell>
               </Row>
             </thead>
@@ -55,6 +57,9 @@ export default () => {
                       <AniLink to={`/anime/${anime.animeId}`}>
                         {anime.aniDetails.title}
                       </AniLink>
+                    </Cell>
+                    <Cell>
+                      <StatusButton anime={anime} />
                     </Cell>
                     <Cell>
                       <ListButton

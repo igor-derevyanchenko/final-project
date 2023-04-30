@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { GridDiv } from "./reusableComponents";
+import { GridDiv, CardHolder, ButtonHolder } from "./reusableComponents";
 import styled from "styled-components";
 import AnimeCard from "./AnimeCard";
 import Button from "./Button";
@@ -87,26 +87,11 @@ export default () => {
   );
 };
 
-const CardHolder = styled.main`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 400px);
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1rem;
-`;
-
 const Sidebar = styled.aside`
   background-color: var(--gundam-yellow);
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const ButtonHolder = styled.div`
-  margin: 1rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
 `;
 
 const FilterButton = styled.button`

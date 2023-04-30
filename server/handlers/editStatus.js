@@ -7,9 +7,9 @@ const options = {
   useunifiedtopology: true,
 };
 
-const addToList = async (req, res) => {
-  const { userId } = req.params;
-  const { animeId, status, aniDetails } = req.body;
+const editStatus = async (req, res) => {
+  const { userId, animeId } = req.params;
+  const { status } = req.body;
 
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
@@ -18,8 +18,8 @@ const addToList = async (req, res) => {
   const user = await db
     .collection("users")
     .findOneAndUpdate(
-      { _id: userId },
-      { $addToSet: { list: { animeId, status, aniDetails } } },
+      { _id: userId, "list.animeId": animeId },
+      { $set: { "list.$.status": status } },
       { upsert: true, returnDocument: "after" }
     );
 
@@ -27,4 +27,4 @@ const addToList = async (req, res) => {
   client.close();
 };
 
-module.exports = { addToList };
+module.exports = { editStatus };

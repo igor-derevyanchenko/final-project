@@ -88,3 +88,18 @@ export const StretchDiv = styled.div`
     width: 100%;
   }
 `;
+
+export const CardHolder = styled.main`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 400px);
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+`;
+
+export const ButtonHolder = styled.div`
+  margin: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+`;

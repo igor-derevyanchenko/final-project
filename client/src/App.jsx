@@ -9,6 +9,7 @@ import {
 import Profile from "./Profile";
 import AnimeList from "./AnimeList";
 import AnimeDetails from "./AnimeDetails";
+import SearchPage from "./SearchPage";
 
 export default () => {
   return (
@@ -23,6 +24,9 @@ export default () => {
         </Route>
         <Route path="/anime/:animeId" element={<HeaderLayout />}>
           <Route index element={<AnimeDetails />} />
+        </Route>
+        <Route path="/search/:query" element={<HeaderLayout />}>
+          <Route index element={<SearchPage />} />
         </Route>
       </Routes>
     </>

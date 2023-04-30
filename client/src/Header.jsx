@@ -3,15 +3,30 @@ import styled from "styled-components";
 import Button from "./Button";
 import NakedLink from "./NakedLink";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default () => {
   const { isAuthenticated } = useAuth0();
+  const [query, setQuery] = useState();
+  const navigator = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigator(`/search/${query}`);
+  };
 
   return (
     <Header>
       <NakedLink to="/">
         <Heading1>Igor's Anime Forum</Heading1>
       </NakedLink>
+      <SearchForm onSubmit={handleSearch}>
+        <SearchBar
+          type="text"
+          placeholder="Search"
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </SearchForm>
       <ButtonHolder>
         {isAuthenticated ? (
           <>
@@ -37,7 +52,7 @@ const ProfileButton = () => {
         navigate("/profile");
       }}
     >
-      Profile
+      Watchlist
     </Button>
   );
 };
@@ -89,6 +104,7 @@ const Header = styled.header`
   background-color: var(--gundam-blue);
   padding: 0 1rem;
   display: flex;
+  justify-content: space-around;
 `;
 
 const Heading1 = styled.h1`
@@ -96,8 +112,19 @@ const Heading1 = styled.h1`
 `;
 
 const ButtonHolder = styled.div`
-  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 1rem;
+`;
+
+const SearchBar = styled.input`
+  outline: none;
+  font-size: 1.5rem;
+  flex-grow: 1;
+`;
+
+const SearchForm = styled.form`
+  flex-grow: 1;
+  margin: 1rem;
+  display: flex;
 `;

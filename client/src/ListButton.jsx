@@ -8,10 +8,10 @@ export default ({ animeId, action, aniDetails }) => {
 
   switch (action) {
     case "add-to-list":
-      text = "Add to List";
+      text = "Add to Watchlist";
       break;
     case "remove-from-list":
-      text = "Remove from List";
+      text = "Remove from Watchlist";
       break;
     default:
       text = "Something went terribly, terribly wrong.";
@@ -27,6 +27,7 @@ export default ({ animeId, action, aniDetails }) => {
           },
           body: JSON.stringify({
             animeId,
+            status: "Plan to watch",
             aniDetails,
           }),
         })
