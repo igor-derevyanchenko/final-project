@@ -5,6 +5,7 @@ const { postComment } = require("./handlers/postComment");
 const { addToList } = require("./handlers/addToList");
 const { removeFromList } = require("./handlers/removeFromList");
 const { editStatus } = require("./handlers/editStatus");
+const { editComment } = require("./handlers/editComment");
 const express = require("express");
 const app = express();
 const port = 3000;
@@ -29,6 +30,7 @@ app.post("/api/:animeId/post-comment", postComment);
 app.post("/api/:userId/add-to-list", addToList);
 app.post("/api/:userId/remove-from-list", removeFromList);
 app.patch("/api/:userId/:animeId/edit-status", editStatus);
+app.patch("/api/:animeId/:commentId/edit-comment", editComment);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

@@ -14,11 +14,10 @@ import {
   CommentBox,
   Sidebar,
   Table,
-  Row,
-  Cell,
   StretchDiv,
 } from "./reusableComponents";
 import { UserContext } from "./UserContext";
+import Comment from "./Comment";
 
 export default () => {
   const MAL_CLIENT_ID = import.meta.env.VITE_MAL_CLIENT_ID;
@@ -31,7 +30,7 @@ export default () => {
   const [comment, setComment] = useState();
   const [commentPosted, setCommentPosted] = useState(0);
   const { isAuthenticated } = useAuth0();
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const aniInList =
     currentUser?.list?.some((anime) => anime.animeId === animeId) ?? false;
 
@@ -91,10 +90,10 @@ export default () => {
           <b>Priemered:</b> {aniDetails.start_season.season}{" "}
           {aniDetails.start_season.year}
         </p>
-        <p>
-          <b>Broadcast:</b> {aniDetails.broadcast.day_of_the_week}{" "}
-          {aniDetails.broadcast.start_time} (JST)
-        </p>
+        {/* <p> */}
+        {/*   <b>Broadcast:</b> {aniDetails.broadcast.day_of_the_week}{" "} */}
+        {/*   {aniDetails.broadcast.start_time} (JST) */}
+        {/* </p> */}
         <p>
           <b>Studios:</b>{" "}
           {aniDetails.studios.map((studio, index) => {
@@ -142,12 +141,11 @@ export default () => {
             <tbody>
               {comments.map((comment, index) => {
                 return (
-                  <Row key={`comment-${index}`}>
-                    <Cell>
-                      <h3>{comment.user} said:</h3>
-                      <p>{comment.comment}</p>
-                    </Cell>
-                  </Row>
+                  <Comment
+                    key={`comment-${index}`}
+                    comment={comment}
+                    setCommentPosted={setCommentPosted}
+                  />
                 );
               })}
             </tbody>
@@ -180,6 +178,7 @@ export default () => {
           >
             <CommentBox
               rows="4"
+              placeholder="Write a comment!"
               onChange={(e) => {
                 setComment(e.target.value);
               }}

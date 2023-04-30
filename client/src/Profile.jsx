@@ -30,7 +30,7 @@ export default () => {
       <GridDiv>
         <Sidebar>
           <ProfilePicture src={currentUser.picture} />
-          <h1>{currentUser.username ?? user.name}'s profile</h1>
+          <h1>{currentUser.username ?? currentUser.name}'s Profile</h1>
         </Sidebar>
         <Main>
           <Title>Your Watchlist</Title>

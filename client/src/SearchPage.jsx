@@ -21,10 +21,9 @@ export default () => {
     })
       .then((res) => res.json())
       .then((parsedRes) => {
-        console.log(parsedRes);
         setAniList(parsedRes);
       });
-  }, [offset]);
+  }, [offset, query]);
 
   if (!aniList) {
     return <div>Loading...</div>;

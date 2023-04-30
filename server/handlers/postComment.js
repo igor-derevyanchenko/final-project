@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { MONGO_URI } = process.env;
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 const options = {
   useNewUrlParser: true,
@@ -21,7 +21,14 @@ const postComment = async (req, res) => {
   const filter = { id: animeId };
   const update = {
     $setOnInsert: { id: animeId },
-    $push: { comments: { user: commenter, comment: comment } },
+    $push: {
+      comments: {
+        _id: new ObjectId(),
+        userId: user._id,
+        user: commenter,
+        comment: comment,
+      },
+    },
   };
   const dbOptions = { upsert: true };
 
