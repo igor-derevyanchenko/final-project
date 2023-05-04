@@ -90,10 +90,12 @@ export default () => {
           <b>Priemered:</b> {aniDetails.start_season.season}{" "}
           {aniDetails.start_season.year}
         </p>
-        {/* <p> */}
-        {/*   <b>Broadcast:</b> {aniDetails.broadcast.day_of_the_week}{" "} */}
-        {/*   {aniDetails.broadcast.start_time} (JST) */}
-        {/* </p> */}
+        <p>
+          <b>Broadcast:</b>{" "}
+          {aniDetails.broadcast
+            ? `${aniDetails.broadcast.day_of_the_week} ${aniDetails.broadcast.start_time} (JST)`
+            : "Broadcast dates not available"}
+        </p>
         <p>
           <b>Studios:</b>{" "}
           {aniDetails.studios.map((studio, index) => {
