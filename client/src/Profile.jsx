@@ -33,49 +33,53 @@ export default () => {
           <h1>{currentUser.username ?? currentUser.name}'s Profile</h1>
         </Sidebar>
         <Main>
-          <Title>Your Watchlist</Title>
-          <Table>
-            <thead>
-              <Row>
-                <HeaderCell>Picture</HeaderCell>
-                <HeaderCell>Title</HeaderCell>
-                <HeaderCell>Status</HeaderCell>
-                <HeaderCell>Rating</HeaderCell>
-                <HeaderCell>Remove</HeaderCell>
-              </Row>
-            </thead>
-            <TableBody>
-              {currentUser.list.map((anime, index) => {
-                return (
-                  <Row key={`row-${index}`}>
-                    <Cell>
-                      <img
-                        src={anime.aniDetails.main_picture.medium}
-                        alt="Anime picture"
-                      />
-                    </Cell>
-                    <Cell>
-                      <AniLink to={`/anime/${anime.animeId}`}>
-                        {anime.aniDetails.title}
-                      </AniLink>
-                    </Cell>
-                    <Cell>
-                      <StatusButton anime={anime} type="status" />
-                    </Cell>
-                    <Cell>
-                      <StatusButton anime={anime} type="rating" />
-                    </Cell>
-                    <Cell>
-                      <ListButton
-                        animeId={anime.animeId}
-                        action="remove-from-list"
-                      />
-                    </Cell>
-                  </Row>
-                );
-              })}
-            </TableBody>
-          </Table>
+          <Title>
+            Your Watchlist {!currentUser.list && "is empty! Go add some shows!"}
+          </Title>
+          {currentUser.list && (
+            <Table>
+              <thead>
+                <Row>
+                  <HeaderCell>Picture</HeaderCell>
+                  <HeaderCell>Title</HeaderCell>
+                  <HeaderCell>Status</HeaderCell>
+                  <HeaderCell>Rating</HeaderCell>
+                  <HeaderCell>Remove</HeaderCell>
+                </Row>
+              </thead>
+              <TableBody>
+                {currentUser.list.map((anime, index) => {
+                  return (
+                    <Row key={`row-${index}`}>
+                      <Cell>
+                        <img
+                          src={anime.aniDetails.main_picture.medium}
+                          alt="Anime picture"
+                        />
+                      </Cell>
+                      <Cell>
+                        <AniLink to={`/anime/${anime.animeId}`}>
+                          {anime.aniDetails.title}
+                        </AniLink>
+                      </Cell>
+                      <Cell>
+                        <StatusButton anime={anime} type="status" />
+                      </Cell>
+                      <Cell>
+                        <StatusButton anime={anime} type="rating" />
+                      </Cell>
+                      <Cell>
+                        <ListButton
+                          animeId={anime.animeId}
+                          action="remove-from-list"
+                        />
+                      </Cell>
+                    </Row>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
         </Main>
       </GridDiv>
     )
