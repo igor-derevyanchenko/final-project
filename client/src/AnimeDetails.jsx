@@ -118,7 +118,11 @@ export default () => {
   return (
     <GridDiv>
       <Sidebar>
-        <img src={aniDetails.main_picture.medium} alt="Main picture" />
+        <img
+          src={aniDetails.main_picture.medium}
+          alt="Main picture"
+          style={{ width: "100%" }}
+        />
         <StretchDiv>
           {
             <ListButton

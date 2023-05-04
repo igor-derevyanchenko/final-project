@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { GridDiv, CardHolder, ButtonHolder } from "./reusableComponents";
+import { CardHolder, ButtonHolder } from "./reusableComponents";
 import styled from "styled-components";
 import AnimeCard from "./AnimeCard";
 import Button from "./Button";
@@ -103,4 +103,9 @@ const FilterButton = styled.button`
   font-size: 1.5rem;
   background-color: var(--gundam-red);
   color: var(--gundam-lightgray);
+`;
+
+const GridDiv = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 9fr;
 `;
