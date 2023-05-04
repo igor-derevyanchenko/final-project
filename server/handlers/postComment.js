@@ -41,6 +41,7 @@ const postComment = async (req, res) => {
     client.close();
     return;
   }
+
   res.status(200).json({ status: 200, message: "Comment posted" });
   client.close();
 };

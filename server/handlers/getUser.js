@@ -14,8 +14,7 @@ const getUser = async (req, res) => {
   const db = client.db("final-project");
   const user = await db.collection("users").findOne({ _id: userId });
   res.status(200).json({ status: 200, data: user });
-  console.log(user);
-  client.close;
+  client.close();
 };
 
 module.exports = { getUser };

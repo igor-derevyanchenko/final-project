@@ -1,10 +1,10 @@
+import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import ListButton from "./ListButton";
 import Button from "./Button";
 import {
-  GridDiv,
   Main,
   H2,
   Title,
@@ -251,3 +251,8 @@ export default () => {
     </GridDiv>
   );
 };
+
+const GridDiv = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+`;
