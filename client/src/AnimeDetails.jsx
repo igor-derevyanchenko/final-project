@@ -34,6 +34,10 @@ export default () => {
   const aniInList =
     currentUser?.list?.some((anime) => anime.animeId === animeId) ?? false;
 
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   useEffect(() => {
     fetch(`/mal/anime/${animeId}?${searchParams}`, {
       method: "GET",
@@ -44,6 +48,57 @@ export default () => {
     })
       .then((res) => res.json())
       .then((parsedRes) => {
+        parsedRes.start_season.season = capitalizeFirstLetter(
+          parsedRes.start_season.season
+        );
+
+        switch (parsedRes.media_type) {
+          case "movie":
+            parsedRes.media_type = "Movie";
+            break;
+          case "tv":
+            parsedRes.media_type = "TV";
+            break;
+          case "ova":
+            parsedRes.media_type = "OVA";
+            break;
+          case "special":
+            parsedRes.media_type = "Special";
+            break;
+          default:
+            console.log(parsedRes.media_type);
+            parsedRes.media_type = "This case is not handled!";
+        }
+
+        switch (parsedRes.status) {
+          case "finished_airing":
+            parsedRes.status = "Finished Airing";
+            break;
+          case "currently_airing":
+            parsedRes.status = "Currently Airing";
+            break;
+          case "not_yet_aired":
+            parsedRes.status = "Not Airing Yet";
+            break;
+          default:
+            console.log(parsedRes.status);
+            parsedRes.status = "This case is not handled!";
+        }
+
+        if (parsedRes.broadcast) {
+          parsedRes.broadcast.day_of_the_week = capitalizeFirstLetter(
+            parsedRes.broadcast.day_of_the_week
+          );
+        }
+
+        const startDate = new Date(parsedRes.start_date);
+        parsedRes.start_date = startDate.toLocaleString("en-Us", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+
         setAniDetails(parsedRes);
       });
 
@@ -84,7 +139,7 @@ export default () => {
           <b>Status:</b> {aniDetails.status}
         </p>
         <p>
-          <b>Started airing on:</b> {aniDetails.start_date}
+          <b>Started airing on:</b> {aniDetails.start_date.toString()}
         </p>
         <p>
           <b>Priemered:</b> {aniDetails.start_season.season}{" "}
@@ -93,7 +148,7 @@ export default () => {
         <p>
           <b>Broadcast:</b>{" "}
           {aniDetails.broadcast
-            ? `${aniDetails.broadcast.day_of_the_week} ${aniDetails.broadcast.start_time} (JST)`
+            ? `${aniDetails.broadcast.day_of_the_week}s at ${aniDetails.broadcast.start_time} (JST)`
             : "Broadcast dates not available"}
         </p>
         <p>
