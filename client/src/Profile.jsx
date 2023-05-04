@@ -40,6 +40,7 @@ export default () => {
                 <HeaderCell>Picture</HeaderCell>
                 <HeaderCell>Title</HeaderCell>
                 <HeaderCell>Status</HeaderCell>
+                <HeaderCell>Rating</HeaderCell>
                 <HeaderCell>Remove</HeaderCell>
               </Row>
             </thead>
@@ -59,7 +60,10 @@ export default () => {
                       </AniLink>
                     </Cell>
                     <Cell>
-                      <StatusButton anime={anime} />
+                      <StatusButton anime={anime} type="status" />
+                    </Cell>
+                    <Cell>
+                      <StatusButton anime={anime} type="rating" />
                     </Cell>
                     <Cell>
                       <ListButton

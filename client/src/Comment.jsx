@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Row, Cell, CommentBox } from "./reusableComponents";
 import { UserContext } from "./UserContext";
 import styled from "styled-components";
@@ -12,13 +12,34 @@ export default ({ comment, setCommentPosted }) => {
   const [editing, setEditing] = useState(false);
   const [editComment, setEditComment] = useState(comment.comment);
   const [editTooShort, setEditTooShort] = useState(false);
+  const [commenterHasSeen, setCommenterHasSeen] = useState();
+  const [showCommenterHasSeen, setShowCommenterHasSeen] = useState(false);
+
+  useEffect(() => {
+    fetch(`/api/get-user/${comment.userId}`)
+      .then((res) => res.json())
+      .then((parsedRes) => {
+        const status = parsedRes.data?.list.find(
+          (anime) => anime.animeId === animeId
+        )?.status;
+
+        if (status === "Finished") {
+          setCommenterHasSeen("Has seen this show");
+        } else {
+          setCommenterHasSeen("Has not seen this show");
+        }
+      });
+  }, []);
+
   const handleMouseOver = () => {
+    setShowCommenterHasSeen(true);
     if (comment.userId === currentUser._id) {
       setEditable(true);
     }
   };
 
   const handleMouseLeave = () => {
+    setShowCommenterHasSeen(false);
     setEditable(false);
   };
 
@@ -51,7 +72,10 @@ export default ({ comment, setCommentPosted }) => {
     <Row onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
       <Cell>
         <FlexDiv>
-          <h3>{comment.user} said:</h3>
+          <h3>
+            {comment.user} {showCommenterHasSeen && `(${commenterHasSeen}) `}
+            said:
+          </h3>
           {editable && !editing && (
             <EditButton
               onClick={() => {
