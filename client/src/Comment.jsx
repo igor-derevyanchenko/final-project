@@ -19,7 +19,7 @@ export default ({ comment, setCommentPosted }) => {
     fetch(`/api/get-user/${comment.userId}`)
       .then((res) => res.json())
       .then((parsedRes) => {
-        const status = parsedRes.data?.list.find(
+        const status = parsedRes.data?.list?.find(
           (anime) => anime.animeId === animeId
         )?.status;
 
