@@ -35,9 +35,9 @@ API: MyAnimeList API: https://myanimelist.net/apiconfig/references/api/v2
    - Shows the user has already watched
    - The user’s rating for the show (out of 10)
 - Discovery feed
- - A list of available anime
-  - Filterable
-  - Paginated
+  - A list of available anime
+   - Filterable
+   - Paginated
 
 - Individual anime pages
   - Anime details (some are missing sometimes, depending on the API):
